@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clínica Lumina | Estética Facial e Corporal de Alto Padrão</title>
+<meta name="description" content="Clínica Lumina - Especialistas em harmonização facial, laser e limpeza de pele avançada. Agende sua consulta gratuita.">
+
+<!-- Fontes: Playfair Display para títulos, Montserrat para textos -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================
+     RESET E VARIÁVEIS GLOBAIS (Design Tokens)
+  ============================================ */
+  :root {
+    --branco: #FFFFFF;
+    --nude: #FDF6F3;
+    --cinza-texto: #333333;
+    --cinza-suave: #6E6660;
+    --dourado: #C5A07A;
+    --dourado-escuro: #A9825C;
+    --linha: rgba(51, 51, 51, 0.08);
+
+    --fonte-titulo: 'Playfair Display', serif;
+    --fonte-corpo: 'Montserrat', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--fonte-corpo);
+    color: var(--cinza-texto);
+    background: var(--branco);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  a { text-decoration: none; color: inherit; }
+
+  ul { list-style: none; }
+
+  h1, h2, h3 {
+    font-family: var(--fonte-titulo);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* Foco visível para acessibilidade de teclado */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--dourado-escuro);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    html { scroll-behavior: auto; }
+  }
+
+  .botao {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    background: var(--dourado);
+    color: var(--branco);
+    font-family: var(--fonte-corpo);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .botao:hover {
+    background: var(--dourado-escuro);
+    transform: translateY(-2px);
+  }
+
+  .botao--fantasma {
+    background: transparent;
+    border: 1px solid var(--dourado);
+    color: var(--dourado-escuro);
+  }
+
+  .botao--fantasma:hover {
+    background: var(--dourado);
+    color: var(--branco);
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dourado-escuro);
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+
+  .titulo-secao {
+    font-size: clamp(28px, 4vw, 42px);
+    margin-bottom: 18px;
+  }
+
+  .subtitulo-secao {
+    color: var(--cinza-suave);
+    font-size: 16px;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  .cabecalho-secao {
+    text-align: center;
+    margin: 0 auto 56px;
+    max-width: 640px;
+  }
+
+  section { position: relative; }
+
+  /* ============================================
+     1. NAVBAR FIXA
+  ============================================ */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 500;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--linha);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .navbar.rolou {
+    box-shadow: 0 4px 24px rgba(51, 51, 51, 0.06);
+  }
+
+  .navbar__conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 84px;
+  }
+
+  .logo {
+    font-family: var(--fonte-titulo);
+    font-size: 26px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: var(--cinza-texto);
+  }
+
+  .logo span { color: var(--dourado-escuro); }
+
+  .navbar__links {
+    display: flex;
+    gap: 40px;
+  }
+
+  .navbar__links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cinza-texto);
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  .navbar__links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--dourado-escuro);
+    transition: width 0.3s ease;
+  }
+
+  .navbar__links a:hover::after { width: 100%; }
+
+  .navbar__cta { display: none; }
+
+  @media (min-width: 860px) {
+    .navbar__cta { display: inline-flex; }
+  }
+
+  .menu-mobile-botao {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--cinza-texto);
+  }
+
+  @media (min-width: 860px) {
+    .menu-mobile-botao { display: none; }
+  }
+
+  @media (max-width: 859px) {
+    .navbar__links { display: none; }
+  }
+
+  /* ============================================
+     2. HERO SECTION
+  ============================================ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 84px;
+    background:
+      linear-gradient(100deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.72) 42%, rgba(253,246,243,0.35) 100%),
+      url('https://images.unsplash.com/photo-1616394158624-1e60b7a5c9c9?q=80&w=1740&auto=format&fit=crop') center/cover no-repeat;
+    position: relative;
+  }
+
+  .hero__conteudo {
+    max-width: 620px;
+    padding: 60px 0;
+  }
+
+  .hero__titulo {
+    font-size: clamp(36px, 6vw, 60px);
+    margin-bottom: 22px;
+  }
+
+  .hero__titulo em {
+    color: var(--dourado-escuro);
+    font-style: italic;
+  }
+
+  .hero__subtitulo {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--cinza-suave);
+    max-width: 480px;
+    margin-bottom: 36px;
+  }
+
+  .hero__acoes {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .hero__nota {
+    font-size: 13px;
+    color: var(--cinza-suave);
+  }
+
+  /* ============================================
+     3. BARRA DE CREDIBILIDADE
+  ============================================ */
+  .credibilidade {
+    background: var(--nude);
+    padding: 36px 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .credibilidade__conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .credibilidade__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cinza-suave);
+    opacity: 0.85;
+  }
+
+  .credibilidade__item svg { flex-shrink: 0; }
+
+  /* ============================================
+     4. TRATAMENTOS (CARDS GRID)
+  ============================================ */
+  .tratamentos {
+    padding: 120px 0;
+  }
+
+  .tratamentos__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px;
+  }
+
+  .card-tratamento {
+    background: var(--nude);
+    padding: 44px 34px;
+    border-radius: 4px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border-top: 2px solid transparent;
+  }
+
+  .card-tratamento:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(51, 51, 51, 0.08);
+    border-top: 2px solid var(--dourado);
+  }
+
+  .card-tratamento__icone {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--branco);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    color: var(--dourado-escuro);
+  }
+
+  .card-tratamento h3 {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+
+  .card-tratamento p {
+    font-size: 14.5px;
+    color: var(--cinza-suave);
+    font-weight: 300;
+    margin-bottom: 22px;
+  }
+
+  .link-saiba-mais {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--dourado-escuro);
+    border-bottom: 1px solid var(--dourado-escuro);
+    padding-bottom: 2px;
+  }
+
+  /* ============================================
+     5. POR QUE NOS ESCOLHER (DIFERENCIAIS)
+  ============================================ */
+  .diferenciais {
+    padding: 100px 0;
+    background: var(--nude);
+  }
+
+  .diferenciais__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .diferenciais__grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .diferenciais__lista {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .diferencial-item {
+    display: flex;
+    gap: 18px;
+  }
+
+  .diferencial-item__marcador {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--branco);
+    color: var(--dourado-escuro);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .diferencial-item h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .diferencial-item p {
+    font-size: 14px;
+    color: var(--cinza-suave);
+    font-weight: 300;
+  }
+
+  .diferenciais__imagem {
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+  }
+
+  .diferenciais__imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ============================================
+     6. PROVA SOCIAL (DEPOIMENTOS)
+  ============================================ */
+  .depoimentos {
+    padding: 120px 0;
+  }
+
+  .depoimentos__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+
+  .card-depoimento {
+    background: var(--branco);
+    border: 1px solid var(--linha);
+    padding: 36px 30px;
+    border-radius: 4px;
+  }
+
+  .card-depoimento__estrelas {
+    color: var(--dourado);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+  }
+
+  .card-depoimento p {
+    font-size: 15px;
+    font-style: italic;
+    font-family: var(--fonte-titulo);
+    color: var(--cinza-texto);
+    margin-bottom: 26px;
+    line-height: 1.5;
+  }
+
+  .card-depoimento__autora {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .card-depoimento__autora img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .card-depoimento__autora strong {
+    display: block;
+    font-size: 14px;
+  }
+
+  .card-depoimento__autora span {
+    font-size: 12px;
+    color: var(--cinza-suave);
+  }
+
+  /* ============================================
+     7. FAQ (ACORDEÃO)
+  ============================================ */
+  .faq {
+    padding: 100px 0 140px;
+    background: var(--nude);
+  }
+
+  .faq__lista {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .faq-item summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 26px 4px;
+    cursor: pointer;
+    font-size: 17px;
+    font-family: var(--fonte-titulo);
+  }
+
+  .faq-item summary::-webkit-details-marker { display: none; }
+
+  .faq-item__sinal {
+    font-size: 22px;
+    color: var(--dourado-escuro);
+    font-weight: 300;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 20px;
+  }
+
+  .faq-item[open] .faq-item__sinal { transform: rotate(45deg); }
+
+  .faq-item__resposta {
+    padding: 0 4px 26px;
+    font-size: 14.5px;
+    color: var(--cinza-suave);
+    font-weight: 300;
+    max-width: 600px;
+  }
+
+  /* ============================================
+     8. RODAPÉ (FOOTER)
+  ============================================ */
+  .rodape {
+    background: var(--cinza-texto);
+    color: rgba(255,255,255,0.75);
+    padding: 72px 0 32px;
+  }
+
+  .rodape__topo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+
+  @media (min-width: 700px) {
+    .rodape__topo { grid-template-columns: 1.4fr 1fr 1fr; }
+  }
+
+  .rodape .logo { color: var(--branco); margin-bottom: 14px; }
+
+  .rodape__topo p {
+    font-size: 14px;
+    font-weight: 300;
+    max-width: 320px;
+    line-height: 1.7;
+  }
+
+  .rodape__coluna h4 {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--branco);
+    margin-bottom: 18px;
+  }
+
+  .rodape__coluna ul { display: flex; flex-direction: column; gap: 12px; }
+
+  .rodape__coluna a, .rodape__coluna span {
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  .rodape__redes {
+    display: flex;
+    gap: 14px;
+    margin-top: 6px;
+  }
+
+  .rodape__redes a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .rodape__redes a:hover {
+    background: var(--dourado);
+    border-color: var(--dourado);
+  }
+
+  .rodape__base {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 24px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+  }
+
+  /* ============================================
+     BOTÃO FLUTUANTE DO WHATSAPP
+  ============================================ */
+  .whatsapp-flutuante {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: var(--branco);
+    padding: 14px 20px 14px 14px;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    font-size: 14px;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: pulsar-whats 2.4s ease-in-out infinite;
+  }
+
+  .whatsapp-flutuante:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55);
+  }
+
+  .whatsapp-flutuante svg { width: 26px; height: 26px; flex-shrink: 0; }
+
+  .whatsapp-flutuante span { white-space: nowrap; }
+
+  @keyframes pulsar-whats {
+    0%, 100% { box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4); }
+    50% { box-shadow: 0 8px 24px rgba(37, 211, 102, 0.7), 0 0 0 8px rgba(37, 211, 102, 0.12); }
+  }
+
+  @media (max-width: 480px) {
+    .whatsapp-flutuante span { display: none; }
+    .whatsapp-flutuante { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVBAR FIXA
+============================================ -->
+<header class="navbar" id="navbar">
+  <div class="container navbar__conteudo">
+    <a href="#topo" class="logo">Lumina<span>.</span></a>
+    <nav class="navbar__links" aria-label="Navegação principal">
+      <a href="#tratamentos">Tratamentos</a>
+      <a href="#diferenciais">Sobre</a>
+      <a href="#depoimentos">Depoimentos</a>
+    </nav>
+    <a href="#agendar" class="botao navbar__cta">Agendar Agora</a>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- ============================================
+       HERO SECTION
+  ============================================ -->
+  <section class="hero">
+    <div class="container hero__conteudo">
+      <span class="eyebrow">Estética facial &amp; corporal</span>
+      <h1 class="hero__titulo">Desperte sua <em>beleza natural</em> na Clínica Lumina.</h1>
+      <p class="hero__subtitulo">Especialistas em transformar sua pele e elevar sua autoestima com procedimentos seguros e tecnologia de ponta.</p>
+      <div class="hero__acoes">
+        <a href="#agendar" class="botao">Agendar Consulta Gratuita</a>
+        <span class="hero__nota">Atendimento personalizado &middot; Certificação ANVISA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       BARRA DE CREDIBILIDADE
+  ============================================ -->
+  <section class="credibilidade">
+    <div class="container credibilidade__conteudo">
+      <div class="credibilidade__item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L20 6V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V6L12 2Z" stroke="currentColor" stroke-width="1.5"/></svg>
+        Certificada ANVISA
+      </div>
+      <div class="credibilidade__item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/></svg>
+        Equipe Especializada
+      </div>
+      <div class="credibilidade__item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2V22M2 12H22" stroke="currentColor" stroke-width="1.5"/></svg>
+        Tecnologia de Ponta
+      </div>
+      <div class="credibilidade__item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12L10 18L20 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        +5.000 Clientes Satisfeitas
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       NOSSOS TRATAMENTOS (CARDS GRID)
+  ============================================ -->
+  <section class="tratamentos" id="tratamentos">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <span class="eyebrow">Nossos serviços</span>
+        <h2 class="titulo-secao">O que podemos fazer por você?</h2>
+        <p class="subtitulo-secao" style="margin: 0 auto;">Protocolos personalizados para cada tipo de pele e objetivo, sempre com segurança e resultados visíveis.</p>
+      </div>
+
+      <div class="tratamentos__grid">
+        <article class="card-tratamento">
+          <div class="card-tratamento__icone">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3C7 3 4 7 4 11C4 15 7 19 12 21C17 19 20 15 20 11C20 7 17 3 12 3Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Limpeza de Pele Profunda</h3>
+          <p>Remoção de impurezas e células mortas com técnicas avançadas para uma pele renovada e luminosa.</p>
+          <a href="#agendar" class="link-saiba-mais">Saiba Mais</a>
+        </article>
+
+        <article class="card-tratamento">
+          <div class="card-tratamento__icone">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9H21.5L15.5 13.5L18 20.5L12 16L6 20.5L8.5 13.5L2.5 9H9.5L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Harmonização Facial</h3>
+          <p>Procedimentos que valorizam seus traços naturais, com resultados discretos e sofisticados.</p>
+          <a href="#agendar" class="link-saiba-mais">Saiba Mais</a>
+        </article>
+
+        <article class="card-tratamento">
+          <div class="card-tratamento__icone">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12H21M3 12L8 7M3 12L8 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Depilação a Laser</h3>
+          <p>Tecnologia de ponta para uma pele lisa e livre de pelos por muito mais tempo, com total segurança.</p>
+          <a href="#agendar" class="link-saiba-mais">Saiba Mais</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       POR QUE NOS ESCOLHER (DIFERENCIAIS)
+  ============================================ -->
+  <section class="diferenciais" id="diferenciais">
+    <div class="container diferenciais__grid">
+      <div>
+        <span class="eyebrow">Por que nos escolher</span>
+        <h2 class="titulo-secao">Cuidado de verdade, do primeiro contato ao resultado final.</h2>
+
+        <div class="diferenciais__lista">
+          <div class="diferencial-item">
+            <div class="diferencial-item__marcador">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 21C4 17 7.5 14 12 14C16.5 14 20 17 20 21" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <div>
+              <h3>Equipe experiente</h3>
+              <p>Profissionais qualificados e em constante atualização com as melhores práticas do mercado.</p>
+            </div>
+          </div>
+          <div class="diferencial-item">
+            <div class="diferencial-item__marcador">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2V22M2 12H22" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <div>
+              <h3>Tecnologia avançada</h3>
+              <p>Equipamentos de última geração para procedimentos mais eficazes e confortáveis.</p>
+            </div>
+          </div>
+          <div class="diferencial-item">
+            <div class="diferencial-item__marcador">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L20 6V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V6L12 2Z" stroke="currentColor" stroke-width="1.5"/></svg>
+            </div>
+            <div>
+              <h3>Ambiente acolhedor</h3>
+              <p>Um espaço pensado para o seu conforto e bem-estar em cada visita.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diferenciais__imagem">
+        <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=1200&auto=format&fit=crop" alt="Esteticista realizando procedimento facial em cliente na Clínica Lumina" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PROVA SOCIAL (DEPOIMENTOS)
+  ============================================ -->
+  <section class="depoimentos" id="depoimentos">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <span class="eyebrow">Depoimentos</span>
+        <h2 class="titulo-secao">Quem já passou por aqui</h2>
+      </div>
+
+      <div class="depoimentos__grid">
+        <article class="card-depoimento">
+          <div class="card-depoimento__estrelas">★★★★★</div>
+          <p>"Amei o resultado do meu botox, equipe maravilhosa! Me senti acolhida do início ao fim."</p>
+          <div class="card-depoimento__autora">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop" alt="Foto de cliente Camila R." loading="lazy">
+            <div>
+              <strong>Camila R.</strong>
+              <span>Harmonização Facial</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-depoimento">
+          <div class="card-depoimento__estrelas">★★★★★</div>
+          <p>"Minha pele nunca esteve tão bonita. O atendimento é impecável e o ambiente é super acolhedor."</p>
+          <div class="card-depoimento__autora">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=200&auto=format&fit=crop" alt="Foto de cliente Fernanda L." loading="lazy">
+            <div>
+              <strong>Fernanda L.</strong>
+              <span>Limpeza de Pele Profunda</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card-depoimento">
+          <div class="card-depoimento__estrelas">★★★★★</div>
+          <p>"Fiz a depilação a laser e o resultado superou minhas expectativas. Recomendo de olhos fechados!"</p>
+          <div class="card-depoimento__autora">
+            <img src="https://images.unsplash.com/photo-1554151228-14d9def656e4?q=80&w=200&auto=format&fit=crop" alt="Foto de cliente Juliana M." loading="lazy">
+            <div>
+              <strong>Juliana M.</strong>
+              <span>Depilação a Laser</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FAQ (DÚVIDAS FREQUENTES) — Acordeão via <details>/<summary>
+  ============================================ -->
+  <section class="faq" id="agendar">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <span class="eyebrow">Dúvidas frequentes</span>
+        <h2 class="titulo-secao">Perguntas frequentes</h2>
+      </div>
+
+      <div class="faq__lista">
+        <details class="faq-item" open>
+          <summary>Os procedimentos são dolorosos?
+            <span class="faq-item__sinal">+</span>
+          </summary>
+          <p class="faq-item__resposta">A maioria dos nossos procedimentos causa apenas um leve desconforto, e sempre utilizamos anestésicos tópicos quando necessário para garantir o máximo de conforto durante o atendimento.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Qual o valor da consulta?
+            <span class="faq-item__sinal">+</span>
+          </summary>
+          <p class="faq-item__resposta">A consulta de avaliação inicial é gratuita. Nela, nossa equipe entende seu objetivo e apresenta um plano de tratamento personalizado com valores transparentes.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Quanto tempo dura o resultado dos tratamentos?
+            <span class="faq-item__sinal">+</span>
+          </summary>
+          <p class="faq-item__resposta">Varia conforme o procedimento e o cuidado individual de cada pele. Durante a consulta, explicamos a durabilidade esperada e as recomendações de manutenção para cada tratamento.</p>
+        </details>
+      </div>
+
+      <div style="text-align:center; margin-top: 48px;">
+        <a href="https://wa.me/5561999999999" target="_blank" rel="noopener" class="botao">Agendar Consulta Gratuita</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================
+     RODAPÉ (FOOTER)
+============================================ -->
+<footer class="rodape">
+  <div class="container">
+    <div class="rodape__topo">
+      <div>
+        <a href="#topo" class="logo">Lumina<span style="color:var(--dourado);">.</span></a>
+        <p>Clínica Lumina — estética facial e corporal de alto padrão, com tecnologia de ponta e cuidado personalizado.</p>
+      </div>
+      <div class="rodape__coluna">
+        <h4>Contato</h4>
+        <ul>
+          <li><span>SHIS QI 11, Bloco H — Brasília, DF</span></li>
+          <li><a href="tel:+556133334444">(61) 3333-4444</a></li>
+          <li><a href="mailto:contato@clinicalumina.com.br">contato@clinicalumina.com.br</a></li>
+        </ul>
+      </div>
+      <div class="rodape__coluna">
+        <h4>Redes Sociais</h4>
+        <div class="rodape__redes">
+          <a href="#" aria-label="Instagram da Clínica Lumina">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook da Clínica Lumina">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 9H16V6H14C12.3 6 11 7.3 11 9V11H9V14H11V21H14V14H16L17 11H14V9Z" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+          <a href="#" aria-label="WhatsApp da Clínica Lumina">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12C2 13.9 2.5 15.6 3.4 17.1L2 22L7 20.6C8.5 21.5 10.2 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2Z" stroke="currentColor" stroke-width="1.3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="rodape__base">
+      &copy; 2026 Clínica Lumina. Todos os direitos reservados.
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================
+     BOTÃO FLUTUANTE DO WHATSAPP
+============================================ -->
+<a href="https://wa.me/5561999999999" target="_blank" rel="noopener" class="whatsapp-flutuante" aria-label="Agendar via WhatsApp">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12C2 13.9 2.5 15.6 3.4 17.1L2 22L7 20.6C8.5 21.5 10.2 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2Z" fill="white"/><path d="M12 2C6.5 2 2 6.5 2 12C2 13.9 2.5 15.6 3.4 17.1L2 22L7 20.6C8.5 21.5 10.2 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2Z" fill="#25D366"/><path d="M8.5 7.5C8.7 7.1 9 7 9.3 7C9.5 7 9.7 7 9.9 7C10.1 7 10.3 7 10.4 7.4C10.6 7.9 11 8.9 11 9C11.1 9.1 11.1 9.3 11 9.4C10.9 9.6 10.8 9.7 10.7 9.9C10.6 10 10.4 10.2 10.5 10.4C10.7 10.7 11.2 11.5 12 12.1C13 12.9 13.7 13.1 14 13.2C14.2 13.3 14.3 13.3 14.5 13.1C14.6 13 15 12.5 15.2 12.3C15.3 12.1 15.5 12.1 15.7 12.2C15.9 12.3 16.9 12.8 17.1 12.9C17.3 13 17.5 13.1 17.5 13.2C17.6 13.4 17.6 14.1 17.3 14.9C17 15.6 15.8 16.3 15.2 16.4C14.7 16.5 14 16.5 13.3 16.3C12.9 16.1 12.3 15.9 11.6 15.6C8.9 14.4 7.1 11.7 7 11.5C6.9 11.3 6 10.1 6 8.9C6 7.6 6.7 7 6.9 6.7C7.1 6.5 7.4 6.4 7.6 6.4C7.8 6.4 8 6.4 8.1 6.4C8.3 6.4 8.4 6.4 8.5 6.7C8.6 6.9 8.4 7.2 8.5 7.5Z" fill="#25D366" stroke="white" stroke-width="0.3"/></svg>
+  <span>Agendar via WhatsApp</span>
+</a>
+
+<!-- ============================================
+     JAVASCRIPT: comportamento do botão flutuante / navbar
+============================================ -->
+<script>
+  // Adiciona sombra na navbar quando o usuário rola a página,
+  // reforçando a hierarquia visual sobre o conteúdo.
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 12) {
+      navbar.classList.add('rolou');
+    } else {
+      navbar.classList.remove('rolou');
+    }
+  });
+
+  // Garante scroll suave para navegadores que não respeitam
+  // a propriedade CSS scroll-behavior (fallback via JS).
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      const destino = document.querySelector(this.getAttribute('href'));
+      if (destino) {
+        e.preventDefault();
+        destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
